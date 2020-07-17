@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import styles from './ImageGalleryItem.module.css';
+import PropTypes from 'prop-types';
 
 class ImageGalleryItem extends Component {
+  static propTypes = {
+    onItemClick: PropTypes.func.isRequired,
+    data: PropTypes.arrayOf(PropTypes.object).isRequired
+  }
+
   modalContent = (id) => {
     this.props.onItemClick(id);
   }

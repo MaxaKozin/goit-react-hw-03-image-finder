@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import styles from './ImageGallery.module.css';
+import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
+  static propTypes = {
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.object.isRequired
+  }
+
   handleOpenModal = (e) => {
     if (e.target !== e.currentTarget) {
       this.props.onClick();

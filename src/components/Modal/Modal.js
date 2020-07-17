@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 import styles from './Modal.module.css';
 
 const modalRoot = document.getElementById('modal-root');
 
 class Modal extends Component {
+  static propTypes = {
+    onBackdrop: PropTypes.func.isRequired,
+    content: PropTypes.string.isRequired
+  }
+
   state = {
     src: ''
   }
+
   componentDidMount() {
     this.setState({ src: this.props.content })
   }

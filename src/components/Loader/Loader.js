@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import Loader from 'react-loader-spinner';
+import PropTypes from 'prop-types';
 import styles from './Loader.module.css';
 
 class Spinner extends Component {
+  static defaultProps = {
+    isEnable: false
+  }
+  static propTypes = {
+    isEnable: PropTypes.bool
+  }
+
   render() {
     return (
       <div className={styles.Spinner}>
