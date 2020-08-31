@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Loader from 'react-loader-spinner';
 import PropTypes from 'prop-types';
-import styles from './Loader.module.css';
+import s from './Spinner.module.css';
 
 class Spinner extends Component {
   static defaultProps = {
@@ -12,14 +12,14 @@ class Spinner extends Component {
   }
 
   render() {
+    const { isEnable } = this.props;
     return (
-      <div className={styles.Spinner}>
-        {this.props.isEnable && <Loader
+      <div className={s.Spinner}>
+        {isEnable && <Loader
           type="Puff"
           color="#00BFFF"
           height={50}
           width={50}
-
         />}
       </div>
     );

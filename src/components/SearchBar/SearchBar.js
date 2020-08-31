@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './SearchBar.module.css';
+import s from './SearchBar.module.css';
 
 
 class SearchBar extends Component {
@@ -19,7 +19,8 @@ class SearchBar extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state.searchQuery);
+    const { searchQuery } = this.state;
+    this.props.onSubmit(searchQuery);
     this.reset();
   };
 
@@ -28,22 +29,22 @@ class SearchBar extends Component {
   }
 
   render() {
-
+    const { searchQuery } = this.state;
     return (
-      <header className={styles.Searchbar}>
-        <form className={styles.SearchForm} onSubmit={this.handleSubmit}>
-          <button type="submit" className={styles.SearchForm_button}>
-            <span className={styles.SearchForm_button_label}>Search</span>
+      <header className={s.Searchbar}>
+        <form className={s.SearchForm} onSubmit={this.handleSubmit}>
+          <button type="submit" className={s.SearchForm_button}>
+            <span className={s.SearchForm_button_label}>Search</span>
           </button>
           <input
-            className={styles.SearchForm_input}
+            className={s.SearchForm_input}
             type="text"
             autoComplete="off"
             name="searchQuery"
             autoFocus
             placeholder="Search images and photos"
             onChange={this.handleChange}
-            value={this.state.searchQuery}
+            value={searchQuery}
           />
         </form>
       </header>

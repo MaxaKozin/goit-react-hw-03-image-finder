@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import styles from './Button.module.css';
 import PropTypes from 'prop-types';
+
+import s from './Button.module.css';
 
 class Button extends Component {
   static defaultProps = {
@@ -11,8 +12,9 @@ class Button extends Component {
     onPress: PropTypes.func.isRequired
   }
   render() {
+    const { onPress, name } = this.props;
     return (
-      <button type="button" onClick={this.props.onPress} className={styles.Button} > {this.props.name}</button>);
+      <button type="button" onClick={onPress} className={s.Button} > {name}</button>);
   }
 }
 

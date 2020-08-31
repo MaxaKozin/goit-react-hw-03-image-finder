@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
+
 import SearchBar from './components/SearchBar/SearchBar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import ImageGalleryItem from './components/ImageGalleryItem/ImageGalleryItem';
 import Modal from './components/Modal/Modal';
 import Button from './components/Button/Button';
-import Spinner from './components/Loader/Loader';
+import Spinner from './components/Spinner/Spinner';
+
+import './App.css';
 
 class App extends Component {
   state = {
@@ -20,26 +22,26 @@ class App extends Component {
     btnEnable: false,
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
+  componentDidUpdate(prevProps, { searchQuery, page }) {
+    if (searchQuery !== this.state.searchQuery) {
       this.getData();
     }
 
-    if (prevState.page !== this.state.page) {
+    if (page !== this.state.page) {
       this.getData();
     }
   }
 
   toggleModal = () => {
-    this.setState(prevState => ({ openModal: !prevState.openModal }))
+    this.setState(({ openModal }) => ({ openModal: !openModal }))
   }
 
   toggleSpinner = () => {
-    this.setState(prevState => ({ spinnerEnable: !prevState.spinnerEnable }))
+    this.setState(({ spinnerEnable }) => ({ spinnerEnable: !spinnerEnable }))
   }
 
   toggleButton = () => {
-    this.setState(prevState => ({ btnEnable: !prevState.btnEnable }))
+    this.setState(({ btnEnable }) => ({ btnEnable: !btnEnable }))
   }
 
   hadleChangeQuery = (query) => {
@@ -53,9 +55,9 @@ class App extends Component {
   handleNextPage = () => {
     this.toggleSpinner();
     this.toggleButton();
-    this.setState(prevState => {
+    this.setState(({ page }) => {
       return {
-        page: prevState.page + 1
+        page: page + 1
       }
     });
   }
@@ -67,8 +69,9 @@ class App extends Component {
     })
   }
 
-  modalContentSet = (id) => {
-    const element = this.state.data.find(elem => elem.id === id);
+  modalContentSet = (itemId) => {
+    const { data } = this.state;
+    const element = data.find(({ id }) => id === itemId);
     this.setState({ modalContent: element.largeImageURL })
   }
 
@@ -76,8 +79,8 @@ class App extends Component {
     const { url, searchQuery, page, api } = this.state;
     const getUrl = `${url}q=${searchQuery}&page=${page}&key=${api}&image_type=photo&orientation=horizontal&per_page=12`;
     this.toggleSpinner();
-    fetch(getUrl).then(res => res.json()).then(({ hits }) => this.setState(prevState => {
-      return { data: [...prevState.data, ...hits] }
+    fetch(getUrl).then(res => res.json()).then(({ hits }) => this.setState(({ data }) => {
+      return { data: [...data, ...hits] }
     })).then(this.handleScroll).then(this.toggleButton)
   }
 

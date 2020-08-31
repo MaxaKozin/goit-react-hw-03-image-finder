@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import styles from './ImageGallery.module.css';
 import PropTypes from 'prop-types';
+
+import s from './ImageGallery.module.css';
 
 class ImageGallery extends Component {
   static propTypes = {
@@ -15,9 +16,10 @@ class ImageGallery extends Component {
   }
 
   render() {
+    const { children } = this.props;
     return (
-      <ul className={styles.ImageGallery} onClick={this.handleOpenModal}>
-        {this.props.children}
+      <ul className={s.ImageGallery} onClick={this.handleOpenModal}>
+        {children}
       </ul>
     );
   }
