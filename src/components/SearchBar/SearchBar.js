@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import s from './SearchBar.module.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
+import s from "./SearchBar.module.css";
 
 class SearchBar extends Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired
-  }
+    onSubmit: PropTypes.func.isRequired,
+  };
 
   state = {
-    searchQuery: ''
-  }
+    searchQuery: "",
+  };
 
   handleChange = (event) => {
     const { name, value } = event.currentTarget;
     this.setState({ [name]: value });
-  }
+  };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { searchQuery } = this.state;
     this.props.onSubmit(searchQuery);
@@ -25,8 +25,8 @@ class SearchBar extends Component {
   };
 
   reset = () => {
-    this.setState({ searchQuery: '' })
-  }
+    this.setState({ searchQuery: "" });
+  };
 
   render() {
     const { searchQuery } = this.state;

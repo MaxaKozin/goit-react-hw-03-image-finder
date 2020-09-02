@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import s from './ImageGallery.module.css';
+import s from "./ImageGallery.module.css";
 
 class ImageGallery extends Component {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
-    children: PropTypes.object.isRequired
-  }
+    children: PropTypes.node.isRequired,
+  };
 
   handleOpenModal = (e) => {
     if (e.target !== e.currentTarget) {
       this.props.onClick();
     }
-  }
+  };
 
   render() {
     const { children } = this.props;
