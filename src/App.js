@@ -15,7 +15,7 @@ class App extends Component {
     modalContent: "",
     searchQuery: "",
     page: 1,
-    data: [],
+    visibleImages: [],
     isLoading: false,
     openModal: false,
   };
@@ -42,7 +42,7 @@ class App extends Component {
     this.setState({
       searchQuery: query,
       page: 1,
-      data: [],
+      visibleImages: [],
     });
   };
 
@@ -62,8 +62,8 @@ class App extends Component {
   };
 
   modalContentSet = (itemId) => {
-    const { data } = this.state;
-    const element = data.find(({ id }) => id === itemId);
+    const { visibleImages } = this.state;
+    const element = visibleImages.find(({ id }) => id === itemId);
     this.setState({ modalContent: element.largeImageURL });
   };
 
@@ -72,8 +72,8 @@ class App extends Component {
     this.toggleLoading();
     fetchImages(searchQuery, page)
       .then(({ hits }) => {
-        this.setState(({ data }) => {
-          return { data: [...data, ...hits] };
+        this.setState(({ visibleImages }) => {
+          return { visibleImages: [...visibleImages, ...hits] };
         });
       })
       .then(this.handleScroll)
@@ -82,14 +82,21 @@ class App extends Component {
   };
 
   render() {
-    const { data, openModal, modalContent, isLoading } = this.state;
-    const btnEnable = data.length > 0 && !isLoading;
+    const {
+      visibleImages,
+      openModal,
+      modalContent,
+      isLoading,
+      page,
+    } = this.state;
+    const isNotLastPage = visibleImages.length / page === 12;
+    const btnEnable = visibleImages.length > 0 && !isLoading && isNotLastPage;
     return (
       <div className="App">
         <SearchBar onSubmit={this.hadleChangeQuery} />
 
         <ImageGallery
-          data={data}
+          images={visibleImages}
           onClick={this.toggleModal}
           onItemClick={this.modalContentSet}
         />

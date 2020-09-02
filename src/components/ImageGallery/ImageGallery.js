@@ -8,7 +8,7 @@ class ImageGallery extends Component {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
     onItemClick: PropTypes.func.isRequired,
-    data: PropTypes.arrayOf(
+    images: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
       })
@@ -22,13 +22,13 @@ class ImageGallery extends Component {
   };
 
   render() {
-    const { data, onItemClick } = this.props;
+    const { images, onItemClick } = this.props;
     return (
       <ul className={s.ImageGallery} onClick={this.handleOpenModal}>
-        {data &&
-          data.map((data) => (
-            <li key={data.id} className={s.ImageGalleryItem}>
-              <ImageGalleryItem {...data} onItemClick={onItemClick} />
+        {images &&
+          images.map((image) => (
+            <li key={image.id} className={s.ImageGalleryItem}>
+              <ImageGalleryItem {...image} onItemClick={onItemClick} />
             </li>
           ))}
       </ul>

@@ -6,12 +6,8 @@ import s from "./ImageGalleryItem.module.css";
 class ImageGalleryItem extends Component {
   static propTypes = {
     onItemClick: PropTypes.func.isRequired,
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        webformatURL: PropTypes.string.isRequired,
-      })
-    ).isRequired,
+    id: PropTypes.number.isRequired,
+    webformatURL: PropTypes.string.isRequired,
   };
 
   modalContent = (id) => {
