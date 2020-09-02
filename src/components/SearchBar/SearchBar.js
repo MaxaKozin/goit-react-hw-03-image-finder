@@ -21,12 +21,12 @@ class SearchBar extends Component {
     event.preventDefault();
     const { searchQuery } = this.state;
     this.props.onSubmit(searchQuery);
-    this.reset();
+    // this.reset();
   };
 
-  reset = () => {
-    this.setState({ searchQuery: "" });
-  };
+  // reset = () => {
+  //   this.setState({ searchQuery: "" });
+  // };
 
   render() {
     const { searchQuery } = this.state;

@@ -18,21 +18,14 @@ class ImageGalleryItem extends Component {
     this.props.onItemClick(id);
   };
   render() {
-    const { data } = this.props;
+    const { id, webformatURL } = this.props;
     return (
-      <>
-        {data &&
-          data.map(({ id, webformatURL }) => (
-            <li key={id} className={s.ImageGalleryItem}>
-              <img
-                src={webformatURL}
-                alt=""
-                className={s.ImageGalleryItem_image}
-                onClick={() => this.modalContent(id)}
-              />
-            </li>
-          ))}
-      </>
+      <img
+        src={webformatURL}
+        alt=""
+        className={s.ImageGalleryItem_image}
+        onClick={() => this.modalContent(id)}
+      />
     );
   }
 }

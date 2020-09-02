@@ -2,24 +2,22 @@ import React, { Component } from "react";
 
 import SearchBar from "./components/SearchBar/SearchBar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
-import ImageGalleryItem from "./components/ImageGalleryItem/ImageGalleryItem";
 import Modal from "./components/Modal/Modal";
 import Button from "./components/Button/Button";
 import Spinner from "./components/Spinner/Spinner";
+
+import fetchImages from "./services/apiServices";
 
 import "./App.css";
 
 class App extends Component {
   state = {
-    url: "https://pixabay.com/api/?",
-    api: "16865907-bf97a2667d97724c7c41d2d46",
     modalContent: "",
     searchQuery: "",
     page: 1,
     data: [],
+    isLoading: false,
     openModal: false,
-    spinnerEnable: false,
-    btnEnable: false,
   };
 
   componentDidUpdate(prevProps, { searchQuery, page }) {
@@ -36,12 +34,8 @@ class App extends Component {
     this.setState(({ openModal }) => ({ openModal: !openModal }));
   };
 
-  toggleSpinner = () => {
-    this.setState(({ spinnerEnable }) => ({ spinnerEnable: !spinnerEnable }));
-  };
-
-  toggleButton = () => {
-    this.setState(({ btnEnable }) => ({ btnEnable: !btnEnable }));
+  toggleLoading = () => {
+    this.setState(({ isLoading }) => ({ isLoading: !isLoading }));
   };
 
   hadleChangeQuery = (query) => {
@@ -53,8 +47,6 @@ class App extends Component {
   };
 
   handleNextPage = () => {
-    this.toggleSpinner();
-    this.toggleButton();
     this.setState(({ page }) => {
       return {
         page: page + 1,
@@ -76,43 +68,38 @@ class App extends Component {
   };
 
   getData = () => {
-    const { url, searchQuery, page, api } = this.state;
-    const getUrl = `${url}q=${searchQuery}&page=${page}&key=${api}&image_type=photo&orientation=horizontal&per_page=12`;
-    this.toggleSpinner();
-    fetch(getUrl)
-      .then((res) => res.json())
-      .then(({ hits }) =>
+    const { searchQuery, page } = this.state;
+    this.toggleLoading();
+    fetchImages(searchQuery, page)
+      .then(({ hits }) => {
         this.setState(({ data }) => {
           return { data: [...data, ...hits] };
-        })
-      )
+        });
+      })
       .then(this.handleScroll)
-      .then(this.toggleButton);
+      .catch((error) => console.log(error.message))
+      .finally(this.toggleLoading);
   };
 
   render() {
-    const {
-      data,
-      openModal,
-      btnEnable,
-      spinnerEnable,
-      modalContent,
-    } = this.state;
+    const { data, openModal, modalContent, isLoading } = this.state;
+    const btnEnable = data.length > 0 && !isLoading;
     return (
       <div className="App">
         <SearchBar onSubmit={this.hadleChangeQuery} />
 
-        <ImageGallery onClick={this.toggleModal}>
-          <ImageGalleryItem data={data} onItemClick={this.modalContentSet} />
-        </ImageGallery>
+        <ImageGallery
+          data={data}
+          onClick={this.toggleModal}
+          onItemClick={this.modalContentSet}
+        />
+
         {openModal && (
           <Modal content={modalContent} onBackdrop={this.toggleModal} />
         )}
-        {btnEnable ? (
-          <Button name="Load more" onPress={this.handleNextPage} />
-        ) : (
-          <Spinner isEnable={spinnerEnable} />
-        )}
+        {isLoading && <Spinner />}
+
+        {btnEnable && <Button name="Load more" onPress={this.handleNextPage} />}
       </div>
     );
   }

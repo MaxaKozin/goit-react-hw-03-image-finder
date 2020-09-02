@@ -12,14 +12,6 @@ class Modal extends Component {
     content: PropTypes.string.isRequired,
   };
 
-  state = {
-    src: "",
-  };
-
-  componentDidMount() {
-    this.setState({ src: this.props.content });
-  }
-
   handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       this.props.onBackdrop();
@@ -27,11 +19,11 @@ class Modal extends Component {
   };
 
   render() {
-    const { src } = this.state;
+    const { content } = this.props;
     return createPortal(
       <div className={s.Overlay} onClick={this.handleBackdropClick}>
         <div className={s.Modal}>
-          <img src={src} alt="" />
+          <img src={content} alt="" />
         </div>
       </div>,
       modalRoot
